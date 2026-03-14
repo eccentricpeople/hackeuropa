@@ -1,9 +1,17 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from ml_model import analyze_with_ml
 from logger import add_log, get_logs
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class RequestData(BaseModel):
@@ -30,7 +38,6 @@ def analyze(data: RequestData):
         "blocked": attack_type != "Benign"
     }
 
-    # Save to logs.json
     add_log({
         "url": data.url,
         "headers": data.headers,
