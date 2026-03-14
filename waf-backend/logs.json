@@ -1,1 +1,18 @@
-git 
+[
+    {
+        "url": "/login",
+        "headers": "Mozilla",
+        "body": "<script>alert(1)</script>",
+        "attack_type": "SQL Injection",
+        "confidence": 0.3655325770378113,
+        "blocked": true
+    },
+    {
+        "url": "/login",
+        "headers": "Mozilla",
+        "body": "<script>alert(1)</script>",
+        "attack_type": "SQL Injection",
+        "confidence": 0.3655325770378113,
+        "blocked": true
+    }
+]

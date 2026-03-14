@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from ml_model import analyze_with_ml
+from logger import add_log, get_logs
 
 app = FastAPI()
 
@@ -23,8 +24,25 @@ def analyze(data: RequestData):
 
     attack_type, confidence = analyze_with_ml(text)
 
-    return {
+    result = {
         "attack_type": attack_type,
         "confidence": confidence,
         "blocked": attack_type != "Benign"
     }
+
+    # Save to logs.json
+    add_log({
+        "url": data.url,
+        "headers": data.headers,
+        "body": data.body,
+        "attack_type": attack_type,
+        "confidence": confidence,
+        "blocked": attack_type != "Benign"
+    })
+
+    return result
+
+
+@app.get("/logs")
+def logs():
+    return get_logs()
