@@ -14,5 +14,53 @@
         "attack_type": "SQL Injection",
         "confidence": 0.3655325770378113,
         "blocked": true
+    },
+    {
+        "url": "/home",
+        "headers": "Mozilla",
+        "body": "hello world",
+        "attack_type": "Benign",
+        "confidence": 0.6492697568474314,
+        "blocked": false
+    },
+    {
+        "url": "/home",
+        "headers": "Mozilla",
+        "body": "hello world",
+        "attack_type": "Benign",
+        "confidence": 0.6492697568474314,
+        "blocked": false
+    },
+    {
+        "url": "/home",
+        "headers": "Mozilla",
+        "body": "hello world",
+        "attack_type": "Benign",
+        "confidence": 0.6492697568474314,
+        "blocked": false
+    },
+    {
+        "url": "/login",
+        "headers": "Mozilla",
+        "body": "' OR 1=1 --",
+        "attack_type": "Malicious",
+        "confidence": 0.4841420826939748,
+        "blocked": true
+    },
+    {
+        "url": "/search",
+        "headers": "Mozilla",
+        "body": "<script>alert(1)</script>",
+        "attack_type": "Malicious",
+        "confidence": 0.5013111749665852,
+        "blocked": true
+    },
+    {
+        "url": "/search",
+        "headers": "Mozilla",
+        "body": "<script>alert(1)</script>",
+        "attack_type": "Malicious",
+        "confidence": 0.5013111749665852,
+        "blocked": true
     }
 ]

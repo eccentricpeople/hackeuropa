@@ -1,32 +1,24 @@
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-import torch
+import joblib
 
-# Load pretrained transformer model
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-model = AutoModelForSequenceClassification.from_pretrained(
-    "bert-base-uncased",
-    num_labels=4
-)
+# Load the trained model and vectorizer
+clf = joblib.load("waf_classifier.pkl")
+vectorizer = joblib.load("waf_vectorizer.pkl")
 
-# labels for prediction
-labels = ["Benign", "SQL Injection", "XSS", "Command Injection"]
-
+# Labels
+labels = ["Benign", "Malicious"]
 
 def analyze_with_ml(text):
     
-    inputs = tokenizer(
-        text,
-        return_tensors="pt",
-        truncation=True,
-        padding=True
-    )
-
-    outputs = model(**inputs)
-
-    probs = torch.softmax(outputs.logits, dim=1)
-
-    confidence, predicted_class = torch.max(probs, dim=1)
-
-    attack_type = labels[predicted_class.item()]
-
-    return attack_type, confidence.item()
+    # Convert text to features using vectorizer
+    vec = vectorizer.transform([text])
+    
+    # Get prediction from classifier
+    label = clf.predict(vec)[0]
+    
+    # Get confidence score
+    confidence = clf.predict_proba(vec).max()
+    
+    # Return attack type and confidence
+    attack_type = "Benign" if label == "BENIGN" else "Malicious"
+    
+    return attack_type, float(confidence)
