@@ -10,3 +10,17 @@ def analyze_with_ml(text):
         return "Command Injection", 0.85
 
     return "Benign", 0.75
+@app.post("/analyze")
+def analyze(data: RequestData):
+
+    combined = data.url + " " + data.headers + " " + data.body
+
+    attack_type, confidence = analyze_with_ml(combined)
+
+    blocked = attack_type != "Benign"
+
+    return {
+        "attack_type": attack_type,
+        "confidence": confidence,
+        "blocked": blocked
+    }
