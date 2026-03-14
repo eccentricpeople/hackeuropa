@@ -1,26 +1,32 @@
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
+# Load pretrained transformer model
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+model = AutoModelForSequenceClassification.from_pretrained(
+    "bert-base-uncased",
+    num_labels=4
+)
+
+# labels for prediction
+labels = ["Benign", "SQL Injection", "XSS", "Command Injection"]
+
+
 def analyze_with_ml(text):
+    
+    inputs = tokenizer(
+        text,
+        return_tensors="pt",
+        truncation=True,
+        padding=True
+    )
 
-    if "<script>" in text.lower():
-        return "XSS", 0.92
+    outputs = model(**inputs)
 
-    if "union select" in text.lower():
-        return "SQL Injection", 0.90
+    probs = torch.softmax(outputs.logits, dim=1)
 
-    if "cmd=" in text.lower():
-        return "Command Injection", 0.85
+    confidence, predicted_class = torch.max(probs, dim=1)
 
-    return "Benign", 0.75
-@app.post("/analyze")
-def analyze(data: RequestData):
+    attack_type = labels[predicted_class.item()]
 
-    combined = data.url + " " + data.headers + " " + data.body
-
-    attack_type, confidence = analyze_with_ml(combined)
-
-    blocked = attack_type != "Benign"
-
-    return {
-        "attack_type": attack_type,
-        "confidence": confidence,
-        "blocked": blocked
-    }
+    return attack_type, confidence.item()

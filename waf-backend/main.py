@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from ml_model import analyze_with_ml
 
 app = FastAPI()
 
-# request structure
+
 class RequestData(BaseModel):
     url: str
     headers: str
@@ -15,7 +16,6 @@ def home():
     return {"message": "AI WAF running"}
 
 
-# analyze endpoint
 @app.post("/analyze")
 def analyze(data: RequestData):
 
@@ -28,4 +28,3 @@ def analyze(data: RequestData):
         "confidence": confidence,
         "blocked": attack_type != "Benign"
     }
-from ml_model import analyze_with_ml
