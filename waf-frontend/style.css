@@ -1,0 +1,452 @@
+/* --- 1. Base Reset & Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #0B0C1E;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- 2. Layout Containers --- */
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(255, 122, 0, 0.12) 0%, rgba(11, 12, 30, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- 3. Header & Navigation --- */
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 30px 40px;
+}
+
+.menu-wrapper {
+    position: relative;
+}
+
+.hamburger-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.hamburger-btn:hover {
+    transform: scale(1.1);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #e5f2fd;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    width: 150px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dropdown-menu button {
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-menu button:hover {
+    background-color: #cce0f5;
+}
+
+/* --- 4. Main Content (Logo & Input) --- */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: 80px;
+}
+
+.firewall-logo {
+    width: 250px;
+    height: auto;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.firewall-logo:hover {
+    transform: scale(1.08);
+}
+
+.main-input {
+    width: 90%;
+    max-width: 800px;
+    padding: 18px 30px;
+    border-radius: 40px;
+    border: 2px solid transparent;
+    background-color: #E2E2E2;
+    color: #333;
+    font-size: 15px;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.main-input:hover, .main-input:focus {
+    background-color: #ffffff;
+    border-color: #FF7A00;
+    box-shadow: 0 0 20px rgba(255, 122, 0, 0.4);
+}
+.input-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;      /* Gives a little breathing room on the sides */
+}
+
+/* --- 5. Branding Elements (Orange Blocks) --- */
+.brand-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.brand-box {
+    background-color: #F96A24;
+    padding: 10px 100px 8px 40px;
+    border-bottom-right-radius: 150px;
+    color: white;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.brand-box h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.brand-box p {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.brand-box:hover {
+    transform: scale(1.05);
+    background-color: #ff7d3b;
+}
+
+.footer-branding {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.tagline-box {
+    background-color: #F96A24;
+    padding: 12px 40px 10px 100px;
+    border-top-left-radius: 150px;
+    color: white;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: -10px -10px 15px rgba(0,0,0,0.2);
+    transition: all 0.4s ease;
+}
+
+.tagline-box:hover {
+    transform: translate(-5px, -5px);
+    background-color: #ff7d3b;
+}
+
+.logo-subtext {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 5;
+}
+
+.logo-subtext img {
+    width: 50px;
+    filter: drop-shadow(0 0 8px rgba(255, 122, 0, 0.4));
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.logo-subtext img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* --- 6. Modals & Glassmorphism --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* Controlled by JS */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(8px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content, .about-glass-box {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about-glass-box {
+    width: 90%;
+    max-width: 600px;
+    gap: 15px;
+}
+
+.about-glass-box h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #F96A24;
+}
+
+.about-scroll-content {
+    color: #ffffff;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 15px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Scrollbar Styling */
+.about-scroll-content::-webkit-scrollbar { width: 5px; }
+.about-scroll-content::-webkit-scrollbar-thumb { background: #F96A24; border-radius: 10px; }
+
+.password-input {
+    width: 300px;
+    padding: 15px;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    background: #D9D9D9;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.password-input:focus {
+    border-color: #F96A24;
+    background: white;
+}
+/* --- Team Section Centering & Scaling --- */
+.team-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center; /* Centers the "Developed by" heading */
+}
+
+.team-section h3 {
+    color: #F96A24;
+    font-size: 14px;    /* Smaller heading */
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.team-section ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column; /* Stacks names vertically */
+    align-items: center;    /* Centers names horizontally */
+    gap: 5px;               /* Tight space between names */
+    padding: 0;
+}
+
+.team-section li {
+    font-size: 12px;        /* Smaller font for names */
+    color: #bbb;            /* Dimmer white for a clean look */
+    font-weight: 300;
+}
+/* --- 7. Access Denied & Info Panel (New) --- */
+
+/* Access Denied Pill */
+.access-denied-pill {
+    background: #D9D9D9; /* Matching the light grey from your frame */
+    color: #333;
+    padding: 10px 25px;
+    border-radius: 50px;
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Information Panel Container */
+.info-panel-content {
+    background: #0B0E1A; /* Dark navy background from screenshot */
+    padding: 40px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Site/Action Table */
+.action-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px; /* Creates the gap between rows */
+}
+
+.table-header-pill {
+    background: #757575; /* Grey pill headers */
+    color: white;
+    padding: 12px 0;
+    border-radius: 15px;
+    font-family: 'Arial', sans-serif;
+    font-weight: normal;
+    text-transform: lowercase;
+    width: 50%;
+}
+
+.action-table td {
+    border-bottom: 2px solid #D9D9D9; /* Horizontal separator lines */
+    height: 40px;
+}
+
+/* Reusable Close Button for Info Panel */
+.close-btn {
+    margin-top: 25px;
+    padding: 10px 30px;
+    background: transparent;
+    border: 1px solid #F96A24;
+    color: #F96A24;
+    border-radius: 20px;
+    cursor: pointer;
+    align-self: center;
+    transition: all 0.3s;
+}
+
+.close-btn:hover {
+    background: #F96A24;
+    color: white;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Table Partitions */
+.action-table {
+    width: 100%;
+    border-collapse: collapse; /* Changed to collapse for cleaner lines */
+}
+
+.action-table th {
+    background: #757575;
+    color: white;
+    padding: 12px;
+    border-radius: 15px;
+    border: 5px solid #0B0E1A; /* Creates spacing between header pills */
+}
+
+.action-table td {
+    padding: 15px 10px;
+    border-bottom: 2px solid #D9D9D9; /* The visible partition line */
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Site Cell Styling */
+.site-cell {
+    cursor: pointer;
+    user-select: none;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Status Pills */
+.status-pill {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.status-pill.blocked {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.status-pill.accepted {
+    background-color: #2ecc71;
+    color: white;
+}#action-table-body:empty::after {
+    content: "No logs available. Scan a link to see results.";
+    display: block;
+    color: #666;
+    padding: 20px;
+    text-align: center;
+    width: 200%; /* Spans across both columns */
+}
